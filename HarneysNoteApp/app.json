@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "HarneysNoteApp",
+    "slug": "HarneysNoteApp",
+    "version": "1.0.0",
+    "android": {
+      "package": "com.anonymous.HarneysNoteApp"
+    },
+    "ios": {
+      "bundleIdentifier": "com.anonymous.HarneysNoteApp"
+    }
+  }
+}
