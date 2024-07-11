@@ -43,6 +43,177 @@ export const LOGIN_USER = gql`
   }
 `;
 
+export const GET_NOTES = gql`
+  query GetNotes {
+    getNotes {
+      id
+      title
+      content
+      owner {
+        id
+        firstName
+        lastName
+      }
+      sharedUsers {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const GTE_NOTE_USERS = gql`
+  query GetNoteUsers($id: String!) {
+    getNoteUsers(id: $id) {
+      id
+      firstName
+      lastName
+    }
+  }
+`
+
+export const GET_NOTE_BY_ID = gql`
+  query GetNoteById($id: String!) {
+    getNoteById(id: $id) {
+      id
+      title
+      content
+      owner {
+        id
+        firstName
+        lastName
+      }
+      sharedUsers {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const ADD_NOTE = gql`
+  mutation AddNote($input: addNoteInput!) {
+    addNote(input: $input) {
+      id
+      title
+      content
+      owner {
+        id
+        firstName
+        lastName
+      }
+      sharedUsers {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const UPDATE_NOTE = gql`
+  mutation UpdateNote($id: String!, $input: updateNoteInput!) {
+    updateNote(id: $id, input: $input) {
+      id
+      title
+      content
+      owner {
+        id
+        firstName
+        lastName
+      }
+      sharedUsers {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const DELETE_NOTE = gql`
+  mutation DeleteNote($id: String!) {
+    deleteNote(id: $id) {
+      id
+      title
+      content
+      owner {
+        id
+        firstName
+        lastName
+      }
+      sharedUsers {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const SHARE_NOTE = gql`
+  mutation ShareNote($input: shareNoteInput!) {
+    shareNote(input: $input) {
+      id
+      title
+      content
+      owner {
+        id
+        firstName
+        lastName
+      }
+      sharedUsers {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const UNSHARE_NOTE = gql`
+  mutation UnshareNote($input: unshareNoteInput!) {
+    unshareNote(input: $input) {
+      id
+      title
+      content
+      owner {
+        id
+        firstName
+        lastName
+      }
+      sharedUsers {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const ADD_USER_TO_NOTE = gql`
+  mutation AddUserToNote($input: addUserToNoteInput!) {
+    addUserToNote(input: $input) {
+      id
+      title
+      content
+      owner {
+        id
+        firstName
+        lastName
+      }
+      sharedUsers {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+
 export const saveToken = async (token) => {
   try {
     await AsyncStorage.setItem('token', token);
@@ -50,3 +221,11 @@ export const saveToken = async (token) => {
     console.error('Failed to save the token to storage', error);
   }
 };
+
+export const getToken = async () => {
+  try {
+    return await AsyncStorage.getItem('token');
+  } catch (error) {
+    console.error('Failed to get the token from storage', error);
+  }
+}

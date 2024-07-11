@@ -35,7 +35,7 @@ const LoginScreen = ({ navigation }) => {
           autoHide: true,
         });
         // alert('Login successful! Redirecting to login page.');
-        navigation.navigate('Dashboard'); 
+        navigation.navigate('Notes'); 
       }
     } catch (error) {
       Toast.show({
