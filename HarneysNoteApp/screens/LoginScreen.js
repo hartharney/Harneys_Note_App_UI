@@ -13,7 +13,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useIsLoggedIn } from '../services/contexts/isLoggedInContext';
 
 const LoginScreen = ({ navigation, routeName }) => {
-  console.log("route name", routeName)
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [agreed, setAgreed] = useState(false);
@@ -29,9 +28,7 @@ const LoginScreen = ({ navigation, routeName }) => {
       const { email, password} = data;
       const input = { email,password};
       const response  = await handleLoginUser(input);
-      console.log("response", response)
       if (response) {
-        // Login successful
         Toast.show({
           type: 'success',
           text1: 'Login Successful',
@@ -58,7 +55,7 @@ const LoginScreen = ({ navigation, routeName }) => {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const googleLogin = () => {
-    // Implement Google sign-in logic 
+    // too tired
   };
 
   return (

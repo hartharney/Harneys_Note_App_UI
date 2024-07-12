@@ -2,12 +2,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { ADD_NOTE } from '../Schema/graphqlQueries';
 import Toast from 'react-native-toast-message';
-import { useMutation } from '@apollo/client';
+import { useNotes } from '../services/contexts/noteContext';
 
 const NewNoteCard = ({ onSave }) => {
-const [addNoteMutation, { data, error }] = useMutation(ADD_NOTE);
+    const { addNote } = useNotes();
   const [title, setTitle] = useState('Add New Note');
   const [content, setContent] = useState('');
   const [sharedUsers, setSharedUsers] = useState([]);
@@ -20,12 +19,9 @@ const [addNoteMutation, { data, error }] = useMutation(ADD_NOTE);
     setLoading(true);
     try {
       const newNote = { title, content, sharedUsers };
-      console.log("new note", newNote)
-      const response = await addNoteMutation({ variables: { input: newNote } });
+      const response = await addNote(newNote);
 
-      console.log("response", response)
-
-      if (response && response.data.addNote) {
+      if (response ) {
         setTitle('Add New Note');
         setContent('');
         setSharedUsers([]);

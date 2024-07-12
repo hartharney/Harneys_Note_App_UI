@@ -4,10 +4,20 @@
     "slug": "HarneysNoteApp",
     "version": "1.0.0",
     "android": {
-      "package": "com.anonymous.HarneysNoteApp"
+      "package": "com.anonymous.HarneysNoteApp",
+      "adaptiveIcon" : {
+        "foregroundImage" : "./assets/images/adaptive-icon.png",
+        "backgroundColor" : "#ffffff"
+      }
     },
     "ios": {
       "bundleIdentifier": "com.anonymous.HarneysNoteApp"
-    }
+    },
+    "splash" : {
+      "image" : "./assets/images/splash.png",
+      "resizeMode" : "cover",
+      "backgroundColor" : "#ffffff"
+    },
+    "icon" : "./assets/images/icon.png"
   }
 }

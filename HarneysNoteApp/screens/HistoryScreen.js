@@ -1,52 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, ActivityIndicator, TouchableOpacity, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import NoteCard from '../components/NoteCard';
-import { useUser } from '../services/contexts/userContext';
-import { useQuery, gql } from '@apollo/client';
-import Ionicons from 'react-native-vector-icons/Ionicons'; 
+import { useNotes } from '../services/contexts/noteContext'; 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const GET_NOTE_BY_USER = gql`
-  query GetNoteByUser {
-    getNoteByUser {
-      id
-      title
-      content
-      owner {
-        id
-        firstName
-        lastName
-      }
-      sharedUsers {
-        id
-        firstName
-        lastName
-      }
-    }
-  }
-`;
-
-const HistoryScreen = ({ navigate, routeName }) => {
-  console.log("route name", routeName);
-  const { user } = useUser();
-  const [notes, setNotes] = useState([]);
-  const [loadingMore, setLoadingMore] = useState(false); 
+const HistoryScreen = () => {
+  const { userNotes, loading, refetchUserNotes } = useNotes(); 
   const navigation = useNavigation();
-  console.log("user", user);
-
-  const { loading, error, data } = useQuery(GET_NOTE_BY_USER, {
-    skip: !user,
-  });
 
   useEffect(() => {
-    if (data && data.getNoteByUser) {
-      setNotes(data.getNoteByUser);
-    }
-  }, [data]);
+    const fetchUserNotes = async () => {
+      try {
+        await refetchUserNotes(); 
+      } catch (error) {
+        console.error('Error fetching user notes:', error);
+      }
+    };
 
-  const handleLoadMore = () => {
-    console.log("Load more data");
-  };
+    fetchUserNotes();
+  }, [refetchUserNotes]);
 
   if (loading) {
     return (
@@ -56,21 +29,7 @@ const HistoryScreen = ({ navigate, routeName }) => {
     );
   }
 
-  if (error) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 }}>
-        <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 16 }}>Error fetching notes</Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Add notes')}
-          style={{ backgroundColor: '#007BFF', borderRadius: 20, paddingHorizontal: 16, paddingVertical: 8 }}
-        >
-          <Text style={{ color: 'white', fontSize: 18 }}>Retry</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  if (notes.length === 0) {
+  if (userNotes.length === 0) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 }}>
         <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 16 }}>Hi, start creating new notes now!</Text>
@@ -86,7 +45,7 @@ const HistoryScreen = ({ navigate, routeName }) => {
 
   return (
     <FlatList
-      data={notes}
+      data={userNotes}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
         <NoteCard
@@ -94,7 +53,7 @@ const HistoryScreen = ({ navigate, routeName }) => {
           title={item.title}
           note={item.content}
           timestamp={item.timestamp}
-          // editors={item.editors} 
+          noteId={item.id}
         />
       )}
       ListHeaderComponent={
@@ -104,7 +63,7 @@ const HistoryScreen = ({ navigate, routeName }) => {
       }
       ListFooterComponent={
         <TouchableOpacity
-          onPress={handleLoadMore}
+          onPress={() => console.log('Load more data')} 
           style={{
             backgroundColor: 'black',
             borderRadius: 20,
@@ -126,7 +85,7 @@ const HistoryScreen = ({ navigate, routeName }) => {
           <Ionicons name="arrow-down" size={18} color="white" />
         </TouchableOpacity>
       }
-      className="px-5"
+      className='px-5'
     />
   );
 };

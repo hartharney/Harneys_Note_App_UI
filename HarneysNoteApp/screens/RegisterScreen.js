@@ -26,7 +26,6 @@ const RegisterScreen = ({ navigation, routeName }) => {
       const { email, firstName, lastName, password, confirmPassword} = data;
       const input = { email, firstName, lastName, password, confirmPassword};
       const response = await handleRegisterUser(input);
-        console.log("response", response)
       if (response) {
         Toast.show({
           type: 'success',

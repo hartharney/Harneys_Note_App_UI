@@ -11,6 +11,7 @@ import { View, ActivityIndicator } from 'react-native';
 import Constants from 'expo-constants';
 
 import MainNavigator from './navigation/AuthNavigator';
+import { NotesProvider } from './services/contexts/noteContext';
 
 
 // http link to GraphQL server
@@ -54,14 +55,16 @@ const App = () => {
     <IsLoggedInProvider>
         <ApolloProvider client={client}>
           <UserProvider>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <View className={`flex-1 pt-${Constants.statusBarHeight}`}>
-                <NavigationContainer  screenOptions={{ headerShown: false }}>
-                    <MainNavigator />
-                </NavigationContainer>
-                <Toast />
-              </View> 
-            </GestureHandlerRootView>
+            <NotesProvider>
+              <GestureHandlerRootView style={{ flex: 1 }}>
+                <View className={`flex-1 pt-${Constants.statusBarHeight}`}>
+                  <NavigationContainer  screenOptions={{ headerShown: false }}>
+                      <MainNavigator />
+                  </NavigationContainer>
+                  <Toast />
+                </View> 
+              </GestureHandlerRootView>
+            </NotesProvider>
           </UserProvider>
         </ApolloProvider>
       </IsLoggedInProvider>

@@ -3,20 +3,23 @@ import { View, TextInput, ScrollView, KeyboardAvoidingView, Platform } from 'rea
 import HeaderCard from '../components/HeaderCard';
 import NoteCard from '../components/NoteCard';
 import NewNoteCard from '../components/NewNoteCard';
-import {useUser} from '../services/contexts/userContext';
+// import {useUser} from '../services/contexts/userContext';
 
 const NotesScreen = ({ route, navigation, routeName }) => {
-  console.log("route name", routeName)
-  const { user } = useUser();
-  const [note, setNote] = useState('');
 
-  const saveNote = () => {
-    route.params.saveNote(note);
-    navigation.goBack();
-  };
+  // reminder I will be throwing crazy errors, with that nested FlatList, but priorities...
+  // I may not have time to reimplement 😭😭
+
+  // const { user } = useUser();
+  // const [note, setNote] = useState('');
+
+  // const saveNote = () => {
+  //   route.params.saveNote(note);
+  //   navigation.goBack();
+  // };
 
   const handleSaveNewNote = ({ title, note }) => {
-    // 
+    // I may use this so I can capture loading or suspense at the parent
   };
 
   return (
