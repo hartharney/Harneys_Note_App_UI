@@ -1,23 +1,29 @@
 import React, { useState } from 'react';
-import { ScrollView,View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 
-const NoteCard = ({ title, note, timestamp, editors }) => {
+const NoteCard = ({ title, note, timestamp}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedNote, setEditedNote] = useState(note);
+
+//   editors ?? []
 
   const toggleEdit = () => {
     setIsEditing(!isEditing);
   };
 
   const handleSave = () => {
-    // Save editedNote to backend or perform save action
     setIsEditing(false);
     // Additional logic for saving
   };
 
+//   // Function to get initials from editor's name
+//   const getInitials = (name) => {
+//     return name ? name.charAt(0).toUpperCase() : '';
+//   };
+
   return (
-    <ScrollView style={{ backgroundColor: '#FFED4A', padding: 16, borderRadius: 8, marginBottom: 16 }}>
+    <View style={{ backgroundColor: '#FFED4A', padding: 16, borderRadius: 8, marginBottom: 16 }}>
       <TouchableOpacity onPress={toggleEdit} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Ionicons name="pencil-outline" size={18} color="black" />
@@ -44,26 +50,29 @@ const NoteCard = ({ title, note, timestamp, editors }) => {
         </View>
       ) : (
         <TouchableOpacity onPress={toggleEdit} style={{ marginBottom: 8 }}>
-          {editedNote.split('\n').slice(0, 4).map((line, index) => (
-            <Text key={index} style={{ borderBottomWidth: 1, borderBottomColor: '#ccc', paddingBottom: 4 }}>
-              {line}
-            </Text>
-          ))}
+          <FlatList
+            data={editedNote.split('\n').slice(0, 4)}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <Text style={{ borderBottomWidth: 1, borderBottomColor: '#ccc', paddingBottom: 4 }}>{item}</Text>
+            )}
+          />
           <Text style={{ fontSize: 14, color: '#666' }}>...</Text>
         </TouchableOpacity>
       )}
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         <Text style={{ fontSize: 12, color: '#888' }}>{timestamp}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          {editors.map((editor, index) => (
-            <View key={index} style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: '#ccc', marginLeft: -8, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ fontSize: 10, textAlign: 'center' }}>{editor}</Text>
+        {editors.length > 0 && (
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: '#ccc', justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={{ fontSize: 10, textAlign: 'center' }}>{getInitials(editors[0])}</Text>
             </View>
-          ))}
-        </View>
-      </View>
-    </ScrollView>
+            <Text style={{ fontSize: 10, color: '#888', marginLeft: 4 }}>{editors.length > 1 ? `+${editors.length - 1}` : ''}</Text>
+          </View>
+        )}
+      </View> */}
+    </View>
   );
 };
 

@@ -11,7 +11,6 @@ import AppleLogo from '../assets/images/AppleLogo.png'
 import GoogleLogo from '../assets/images/GoogleLogo.png'
 
 const RegisterScreen = ({ navigation, routeName }) => {
-    console.log("route name", routeName)
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -56,7 +55,7 @@ const RegisterScreen = ({ navigation, routeName }) => {
   const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
   const googleLogin = () => {
-    // Implement Google sign-in logic 
+    // fix later
   };
 
   return (

@@ -19,7 +19,6 @@ const FriendsScreen = ({navigate, routeName}) => {
       about: 'Enjoys hiking and photography',
       lastSeen: 'Last seen 1 day ago',
     },
-    // Add more friends here
   ];
 
   return (

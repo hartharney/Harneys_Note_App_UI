@@ -3,16 +3,13 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 import { useUser } from '../services/contexts/userContext';
 import { useLogout } from '../Schema/api';
-import { useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { useIsLoggedIn } from '../services/contexts/isLoggedInContext';
 
 const HeaderCard = () => {
   const { user } = useUser();
-const { setIsLoggedIn } = useIsLoggedIn()
-  console.log("user in the header", user)
+    const { setIsLoggedIn } = useIsLoggedIn()
   const { handleLogout } = useLogout();
-  const navigation = useNavigation();
 
   const logoutAndNavigate = async () => {
     try {

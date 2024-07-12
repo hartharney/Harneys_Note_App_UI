@@ -20,7 +20,7 @@ const AppNavigator = () => {
                         iconName = 'time-outline';
                     } else if (route.name === 'Add notes') {
                         iconName = 'create-outline';
-                    } else if (route.name === 'Friends') {
+                    } else if (route.name === 'Collaborators') {
                         iconName = 'people-outline';
                     }
 

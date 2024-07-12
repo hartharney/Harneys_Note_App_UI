@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink } from '@apollo/client';
 import { UserProvider } from './services/contexts/userContext';
 import { IsLoggedInProvider } from './services/contexts/isLoggedInContext';
 import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import Toast from 'react-native-toast-message';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaView, View, ActivityIndicator } from 'react-native'; 
+import { View, ActivityIndicator } from 'react-native'; 
 import Constants from 'expo-constants';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import AppNavigator from './navigation/AppNavigator'; 
-import AuthNavigator from './navigation/AuthNavigator'; 
 import MainNavigator from './navigation/AuthNavigator';
 
-
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 // http link to GraphQL server
 const httpLink = createHttpLink({

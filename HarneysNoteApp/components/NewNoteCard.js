@@ -2,10 +2,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useAddNote} from '../Schema/api';
 import { ADD_NOTE } from '../Schema/graphqlQueries';
 import Toast from 'react-native-toast-message';
-import { useQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 const NewNoteCard = ({ onSave }) => {
 const [addNoteMutation, { data, error }] = useMutation(ADD_NOTE);

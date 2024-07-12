@@ -16,15 +16,14 @@ const NotesScreen = ({ route, navigation, routeName }) => {
   };
 
   const handleSaveNewNote = ({ title, note }) => {
-    // Handle saving the new note
-    console.log('New note saved:', title, note);
+    // 
   };
 
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20} // Adjust as needed
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20} 
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 16 }}>
           <View style={{ marginBottom: 10 }}>
@@ -39,7 +38,6 @@ const NotesScreen = ({ route, navigation, routeName }) => {
           timestamp="10 days ago"
           editors={['A', 'B', 'C']}
         />
-        {/* Add more NoteCard components or other content as needed */}
       </ScrollView>
     </KeyboardAvoidingView>
   );
