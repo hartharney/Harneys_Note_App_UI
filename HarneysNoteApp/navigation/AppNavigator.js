@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Ionicons from 'react-native-vector-icons/Ionicons'; // Import Ionicons from react-native-vector-icons
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import NotesScreen from "../screens/NotesScreen";
 import HistoryScreen from "../screens/HistoryScreen";
@@ -61,10 +61,10 @@ const AppNavigator = () => {
                 }}
             />
             <Tab.Screen
-                name="Friends"
+                name="Collaborators"
                 component={FriendsScreen}
                 options={{
-                    tabBarLabel: 'Friends',
+                    tabBarLabel: 'Collaborators',
                 }}
             />
         </Tab.Navigator>

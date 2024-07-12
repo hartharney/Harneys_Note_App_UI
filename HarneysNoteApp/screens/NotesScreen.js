@@ -3,8 +3,11 @@ import { View, TextInput, ScrollView, KeyboardAvoidingView, Platform } from 'rea
 import HeaderCard from '../components/HeaderCard';
 import NoteCard from '../components/NoteCard';
 import NewNoteCard from '../components/NewNoteCard';
+import {useUser} from '../services/contexts/userContext';
 
-const NotesScreen = ({ route, navigation }) => {
+const NotesScreen = ({ route, navigation, routeName }) => {
+  console.log("route name", routeName)
+  const { user } = useUser();
   const [note, setNote] = useState('');
 
   const saveNote = () => {

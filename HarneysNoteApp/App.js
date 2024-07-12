@@ -1,6 +1,7 @@
-// App.js
 import React, { useEffect, useState } from 'react';
 import { ApolloProvider, InMemoryCache, ApolloClient, createHttpLink } from '@apollo/client';
+import { UserProvider } from './services/contexts/userContext';
+import { IsLoggedInProvider } from './services/contexts/isLoggedInContext';
 import { setContext } from '@apollo/client/link/context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
@@ -13,6 +14,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import AppNavigator from './navigation/AppNavigator'; 
 import AuthNavigator from './navigation/AuthNavigator'; 
+import MainNavigator from './navigation/AuthNavigator';
+
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,17 +27,17 @@ const httpLink = createHttpLink({
 
 // Set up an authentication link
 const authLink = setContext(async (_, { headers }) => {
-  const token = await AsyncStorage.getItem('token');
-  const currentRoute = headers['x-current-path'] || '/';
+  const tokenString = await AsyncStorage.getItem('token');
+  const token = tokenString ? JSON.parse(tokenString) : null;
 
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
-      'x-current-path': currentRoute,
+      authorization: token ? `Bearer ${token}` : ''
     }
   };
 });
+
 
 
 const client = new ApolloClient({
@@ -43,46 +46,32 @@ const client = new ApolloClient({
 });
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    checkToken();
-  }, []);
-
-  const checkToken = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      if (token) {
-        setIsLoggedIn(true);
-      }
-    } catch (error) {
-      console.error('Error checking token:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View className="flex-1 justify-center items-center">
         <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
   }
-
   return (
     <>
-      <ApolloProvider client={client}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
-          <View className={`flex-1 pt-${Constants.statusBarHeight}`}>
-            <NavigationContainer>
-              {isLoggedIn ? <AppNavigator /> : <AuthNavigator />}
-            </NavigationContainer>
-            <Toast />
-          </View> 
-        </GestureHandlerRootView>
-      </ApolloProvider>
+    <IsLoggedInProvider>
+        <ApolloProvider client={client}>
+          <UserProvider>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <View className={`flex-1 pt-${Constants.statusBarHeight}`}>
+                <NavigationContainer  screenOptions={{ headerShown: false }}>
+                    <MainNavigator />
+                </NavigationContainer>
+                <Toast />
+              </View> 
+            </GestureHandlerRootView>
+          </UserProvider>
+        </ApolloProvider>
+      </IsLoggedInProvider>
     </>
   );
 };

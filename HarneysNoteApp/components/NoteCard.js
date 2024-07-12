@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput } from 'react-native';
+import { ScrollView,View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { Ionicons } from 'react-native-vector-icons';
 
 const NoteCard = ({ title, note, timestamp, editors }) => {
@@ -17,7 +17,7 @@ const NoteCard = ({ title, note, timestamp, editors }) => {
   };
 
   return (
-    <View style={{ backgroundColor: '#FFED4A', padding: 16, borderRadius: 8, marginBottom: 16 }}>
+    <ScrollView style={{ backgroundColor: '#FFED4A', padding: 16, borderRadius: 8, marginBottom: 16 }}>
       <TouchableOpacity onPress={toggleEdit} style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Ionicons name="pencil-outline" size={18} color="black" />
@@ -63,7 +63,7 @@ const NoteCard = ({ title, note, timestamp, editors }) => {
           ))}
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

@@ -63,7 +63,7 @@ export const GET_NOTES = gql`
   }
 `;
 
-export const GTE_NOTE_USERS = gql`
+export const GET_NOTE_USERS = gql`
   query GetNoteUsers($id: String!) {
     getNoteUsers(id: $id) {
       id
@@ -76,6 +76,26 @@ export const GTE_NOTE_USERS = gql`
 export const GET_NOTE_BY_ID = gql`
   query GetNoteById($id: String!) {
     getNoteById(id: $id) {
+      id
+      title
+      content
+      owner {
+        id
+        firstName
+        lastName
+      }
+      sharedUsers {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const GET_NOTE_BY_USER = gql`
+  query GetNoteByUser {
+    getNoteByUser {
       id
       title
       content
@@ -214,9 +234,11 @@ export const ADD_USER_TO_NOTE = gql`
 `;
 
 
+
 export const saveToken = async (token) => {
   try {
-    await AsyncStorage.setItem('token', token);
+    const saved = await AsyncStorage.setItem('token', token);
+    console.log("saved token", saved)
   } catch (error) {
     console.error('Failed to save the token to storage', error);
   }
@@ -229,3 +251,12 @@ export const getToken = async () => {
     console.error('Failed to get the token from storage', error);
   }
 }
+
+export const clearAuthToken = async () => {
+  try {
+    await AsyncStorage.removeItem('token');
+  } catch (error) {
+    console.error('Error clearing token:', error);
+    throw error;
+  }
+};

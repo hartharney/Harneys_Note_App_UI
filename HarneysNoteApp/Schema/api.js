@@ -1,4 +1,8 @@
 import { useQuery, useMutation } from '@apollo/client';
+import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useUser } from '../services/contexts/userContext';
 import {
   GET_USERS,
   LOGIN_USER,
@@ -34,23 +38,46 @@ export const useRegisterUser = () => {
 };
 
 // User Login Hook
+
 export const useLoginUser = () => {
   const [loginMutation, { data, loading, error }] = useMutation(LOGIN_USER);
+  const { setUser } = useUser(); 
 
   const handleLoginUser = async ({ email, password }, currentPath) => {
     try {
       const result = await loginMutation({ variables: { email, password }, context: { headers: { 'x-current-path': currentPath } } });
-      const token = result.data.login.token;
+      const { token, user: loggedInUser } = result.data.login;
       await saveToken(token);
-      return result.data.login.user;
+      await saveUser(loggedInUser)
+      
+      return loggedInUser;
     } catch (error) {
       console.error('Error logging in user:', error);
       throw error;
     }
   };
 
+  const saveToken = async (token) => {
+    try {
+      await AsyncStorage.setItem('token', JSON.stringify(token));
+    } catch (error) {
+      console.error('Error saving token:', error);
+    }
+  };
+
+  const saveUser = async (user) => {
+    try {
+      await AsyncStorage.setItem('user', JSON.stringify(user));
+    } catch (error) {
+      console.error('Error saving user:', error);
+      throw error;
+    }
+  };
+
+
   return { handleLoginUser, data, loading, error };
 };
+
 
 // Get All Users Hook
 export const useGetUsers = () => {
@@ -82,6 +109,7 @@ export const useAddNote = () => {
 
   const handleAddNote = async (input, currentPath) => {
     try {
+      console.log("this input", input)
       const result = await addNoteMutation({ variables: { input }, context: { headers: { 'x-current-path': currentPath } } });
       return result.data.addNote;
     } catch (error) {
@@ -178,3 +206,23 @@ export const useAddUserToNote = () => {
 
   return { handleAddUserToNote, data, loading, error };
 };
+
+export const useLogout = () => {
+  const navigation = useNavigation();
+
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('token');
+      navigation.navigate('Home'); 
+    } catch (error) {
+      console.error('Error logging out:', error);
+      throw error;
+    }
+  };
+
+  return { handleLogout };
+};
+export const useToken = () => {
+  const token = getSavedToken();
+  return { token };
+}

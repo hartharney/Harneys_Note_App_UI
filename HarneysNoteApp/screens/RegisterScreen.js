@@ -10,7 +10,8 @@ import mailIcon from '../assets/images/mail.png';
 import AppleLogo from '../assets/images/AppleLogo.png'
 import GoogleLogo from '../assets/images/GoogleLogo.png'
 
-const RegisterScreen = ({ navigation }) => {
+const RegisterScreen = ({ navigation, routeName }) => {
+    console.log("route name", routeName)
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -164,13 +165,13 @@ const RegisterScreen = ({ navigation }) => {
                   />
                 )}
                 name="password"
-                rules={{ 
+                rules={{
                   required: 'Password is required',
                   pattern: {
-                    value:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#_!*%$])[a-zA-Z0-9@#_!*%$]{6,18}$/,
-                    message: 'invalid password format, must contain at least one lowercase letter, one uppercase letter, one number, and one special character (@#_!*%$)',
+                    value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,18}$/,
+                    message: 'Invalid password format, must contain at least one lowercase letter, one uppercase letter, and one number',
                   },
-                  minLength: { value: 6, message: 'Email must be at least 6 characters' }, 
+                  minLength: { value: 6, message: 'Password must be at least 6 characters' },
                 }}
               />
               <Text style={{ color: 'red' }}>{errors.password?.message}</Text>

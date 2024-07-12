@@ -5,7 +5,8 @@ import AppleLogo from '../assets/images/AppleLogo.png';
 import GoogleLogo from '../assets/images/GoogleLogo.png';
 import HeroBanner from '../assets/images/Herobanner.png';
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ navigation, routeName }) => {
+  console.log("route name", routeName)
   const googleLogin = () => {
     // Implement Google sign-in logic 
   };
